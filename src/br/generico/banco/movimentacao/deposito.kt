@@ -1,0 +1,5 @@
+package br.generico.banco.br.generico.banco.movimentacao
+
+class deposito {
+
+}
