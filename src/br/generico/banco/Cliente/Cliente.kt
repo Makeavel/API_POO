@@ -1,10 +1,11 @@
-package br.generico.banco.br.generico.banco.Cliente
-import br.generico.banco.br.generico.banco.Conta.Conta
+package br.generico.banco.Cliente
+import br.generico.banco.Conta.Conta
 
-class Cliente {
+open class Cliente  {
     var nome : String? = null
-    var cpf : String?= null
+    var CpfCnpj : String?= null
     var contato: Int? = null
-    var conta : Conta? = null
+    var conta : String? = null
     var tipoCliente: String? = null
+
 }
