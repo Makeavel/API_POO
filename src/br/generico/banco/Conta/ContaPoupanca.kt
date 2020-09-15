@@ -1,6 +1,6 @@
 package br.generico.banco.Conta
 
-class ContaPoupança : Conta() {
+class ContaPoupanca : Conta() {
 
 
 }
