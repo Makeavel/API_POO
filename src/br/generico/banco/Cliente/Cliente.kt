@@ -3,9 +3,8 @@ import br.generico.banco.Conta.Conta
 
 open class Cliente  {
     var nome : String? = null
-    var CpfCnpj : String?= null
-    var contato: Int? = null
-    var conta : String? = null
-    var tipoCliente: String? = null
+    var Cpf : String?= null
+    var contato: String? = null
+    var conta : Conta? = null
 
 }

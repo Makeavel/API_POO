@@ -1,12 +1,35 @@
 package br.generico.banco.movimentacao
+import br.generico.banco.Conta.Conta
 
- class Movimentacao  {
 
-    var ValorTransacao : Double? = null
+fun deposito(saldo: Double, conta: Conta) {
 
-    // Montar as funções de {
-    // -Deposito
-    // -Saque
-    // - e tudo mais aqui }
+    conta.saldo = conta.saldo?.plus(saldo)
+}
 
+fun saque(saldo: Double, conta: Conta) {
+
+    when {
+        saldo < conta.saldo!! -> {
+            conta.saldo = conta.saldo?.minus(saldo)
+        }
+        else -> {
+            println("Saldo Insuficiente")
+
+        }
+    }
+}
+
+fun transferencia(saldo: Double, contaSaida: Conta, contaEntrada: Conta) {
+
+    when {
+        saldo < contaSaida.saldo!! -> {
+            saque(saldo, contaSaida)
+
+            deposito(saldo, contaEntrada)
+        }
+        else -> {
+            println("Saldo Insuficiente")
+        }
+    }
 }
