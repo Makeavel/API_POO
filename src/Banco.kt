@@ -4,10 +4,12 @@ import br.generico.banco.Conta.ContaPoupança
 import br.generico.banco.Cliente.Cliente
 import br.generico.banco.Cliente.ClienteFisico
 import br.generico.banco.Cliente.ClienteJuridico
-import br.generico.banco.movimentacao.Movimentação
+import br.generico.banco.movimentacao.Movimentacao
 
 fun main(){
     var teste:String
 
 }
+
+
 
