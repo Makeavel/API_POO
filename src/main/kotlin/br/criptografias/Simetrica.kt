@@ -1,10 +1,10 @@
-package br.criptografias
-
-import kotlin.text.*
+package main.br.criptografias
 
 open class Simetrica{
+	val z: CharArray = charArrayOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+		's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 
-	fun crypt(){
+	fun crypt(): String {
 		var arrayDado = mutableListOf<Int>()
 		var arrayChave = mutableListOf<Int>()
 		var arrayCriptograf = mutableListOf<Int>()
@@ -17,28 +17,31 @@ open class Simetrica{
 			arrayChave[i] = numberOf(chave[i])
 		}
 		
-		arrayCriptograf = for(i in arrayDado.toArray().size) arrayDado * arrayChave
+		for(i in dado.indices){
+			arrayCriptograf.add((arrayDado[i] * arrayChave[i]) % 36)
+		}
 		
 		for(i in arrayCriptograf.indices){
 			arrayFinalCripto[i] = characterOf(arrayCriptograf[i])
 		}
 		
-		var dadoFinalCripto = arrayFinalCripto.reduce { count, number -> count + number }
+		var dadoFinalCripto = arrayFinalCripto.toString()
 		
 		return dadoFinalCripto
-		
 	}
 	
 	fun numberOf(x: Char): Int {
 		val number: Int
 		var i: Int
-		val z = getConst
+		var found: Int = -1
 		
-		for(i in z.size){
+		for(i in z.indices){
 			if(x == z[i]){
-				return i
+				found = i
 			}
 		}
+
+		return found
 	}
 	
 	fun characterOf(y: Int): Char {

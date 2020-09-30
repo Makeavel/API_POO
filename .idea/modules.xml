@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/API_POO_2020.2.iml" filepath="$PROJECT_DIR$/.idea/API_POO_2020.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/API_POO.iml" filepath="$PROJECT_DIR$/.idea/modules/API_POO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/API_POO.main.iml" filepath="$PROJECT_DIR$/.idea/modules/API_POO.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/API_POO.test.iml" filepath="$PROJECT_DIR$/.idea/modules/API_POO.test.iml" />
     </modules>
   </component>
 </project>

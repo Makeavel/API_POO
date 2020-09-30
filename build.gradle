@@ -5,7 +5,7 @@ plugins {
     id 'application'
 }
 
-group 'br.generico.banco'
+group 'src'
 version '1.0-SNAPSHOT'
 
 
