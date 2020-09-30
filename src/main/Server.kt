@@ -1,5 +1,4 @@
-package br.generico.banco
-
+package main
 
 fun main(){
 
