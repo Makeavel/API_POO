@@ -18,16 +18,38 @@ open class Simetrica{
 		}
 		
 		for(i in dado.indices){
-			arrayCriptograf.add((arrayDado[i] * arrayChave[i]) % 36)
+			arrayCriptograf.add((arrayDado[i] + arrayChave[i]) % 36)
 		}
 		
 		for(i in arrayCriptograf.indices){
 			arrayFinalCripto[i] = characterOf(arrayCriptograf[i])
 		}
-		
-		var dadoFinalCripto = arrayFinalCripto.toString()
-		
-		return dadoFinalCripto
+
+		return arrayFinalCripto.toString()
+	}
+
+	fun decrypt(): String {
+		var arrayDecrypt = mutableListOf<Int>()
+		var arrayFinalDescripto = mutableListOf<Char>()
+		var arrayDado = mutableListOf<Int>()
+		var arrayChave = mutableListOf<Int>()
+		var dadoCrypt = "Thiago".toLowerCase().toCharArray()
+		var chave = "Stuart".toLowerCase().toCharArray()
+
+		for (i in dadoCrypt.indices){
+			arrayDado[i] = numberOf(dadoCrypt[i])
+			arrayChave[i] = numberOf(chave[i])
+		}
+
+		for(i in dadoCrypt.indices){
+			arrayDecrypt.add((arrayDado[i] - arrayChave[i]) % 36)
+		}
+
+		for(i in arrayDecrypt.indices){
+			arrayFinalDescripto[i] = characterOf(arrayDecrypt[i])
+		}
+
+		return arrayFinalDescripto.toString()
 	}
 	
 	fun numberOf(x: Char): Int {
@@ -47,5 +69,5 @@ open class Simetrica{
 	fun characterOf(y: Int): Char {
 		return z[y]
 	}
-	
+
 }
