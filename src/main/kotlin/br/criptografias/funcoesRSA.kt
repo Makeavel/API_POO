@@ -1,10 +1,12 @@
 package main.br.criptografias
 import java.math.BigInteger
+import java.security.SecureRandom
 
-fun testeRSA(entrada : String) {
+fun RSA(entrada: String) {
     //criação das variáveis
-    var p: BigInteger = 17.toBigInteger()//primo1
-    var q: BigInteger = 41.toBigInteger()//primo2
+    val r = SecureRandom()
+    val p = BigInteger(16/ 2, 100, r)
+    val q = BigInteger(16/ 2, 100, r)
     var n: BigInteger = 0.toBigInteger() //valor da multiplicação dos primos (tamanho do conjunto)
     var tot: BigInteger = 0.toBigInteger()// função totiente
     var e: BigInteger = 0.toBigInteger()// parte da chave publica
@@ -21,7 +23,7 @@ fun testeRSA(entrada : String) {
     e = mdc(tot) // calculou e
     inve = inverso(e,tot )
 
-    transforma(entrada,msg_asc)
+    transforma(entrada.toString(),msg_asc)
     println("mensagem em ASCII")
     mostrar(msg_asc)
 
@@ -44,7 +46,7 @@ fun encripta(msg_asc : MutableList<BigInteger>,msg_encrypt:  MutableList<BigInte
     }
 }
 
-fun mostrar(msg : MutableList<BigInteger>){
+fun mostrar(msg : MutableList<BigInteger>) {
     for (i in msg) {
         print("$i ")
     }
