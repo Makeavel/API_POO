@@ -1,10 +1,10 @@
 package main.br.criptografias
 
 open class CaesarCipher{
-	val z: CharArray = charArrayOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+	val CIPHER_BASE: CharArray = charArrayOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 
-	fun crypt(dado : String , chave : String): String {
+	fun crypt(data: String , chave: String): String {
 		var arrayDado = mutableListOf<Int>()
 		var arrayChave = mutableListOf<Int>()
 		var arrayCriptograf = mutableListOf<Int>()
@@ -12,12 +12,12 @@ open class CaesarCipher{
 		//var dado = "Thiago".toLowerCase().toCharArray()
 		//var chave = "Stuart".toLowerCase().toCharArray()
 
-		for (i in dado.indices){
-			arrayDado[i] = numberOf(dado[i])
+		for (i in data.indices){
+			arrayDado[i] = numberOf(data[i])
 			arrayChave[i] = numberOf(chave[i])
 		}
 
-		for(i in dado.indices){
+		for(i in data.indices){
 			arrayCriptograf.add((arrayDado[i] + arrayChave[i]) % 36)
 		}
 
@@ -30,7 +30,7 @@ open class CaesarCipher{
 
 
 
-	fun decrypt(dadoCrypt : String , chave : String): String {
+	fun decrypt(dataCrypt: String, chave: String): String {
 		var arrayDecrypt = mutableListOf<Int>()
 		var arrayFinalDescripto = mutableListOf<Char>()
 		var arrayDado = mutableListOf<Int>()
@@ -40,12 +40,12 @@ open class CaesarCipher{
 
 
 
-		for (i in dadoCrypt.indices){
-			arrayDado[i] = numberOf(dadoCrypt[i])
+		for (i in dataCrypt.indices){
+			arrayDado[i] = numberOf(dataCrypt[i])
 			arrayChave[i] = numberOf(chave[i])
 		}
 
-		for(i in dadoCrypt.indices){
+		for(i in dataCrypt.indices){
 			arrayDecrypt.add((arrayDado[i] - arrayChave[i]) % 36)
 		}
 
@@ -61,8 +61,8 @@ open class CaesarCipher{
 		var i: Int
 		var found: Int = -1
 
-		for(i in z.indices){
-			if(x == z[i]){
+		for(i in CIPHER_BASE.indices){
+			if(x == CIPHER_BASE[i]){
 				found = i
 			}
 		}
@@ -71,7 +71,7 @@ open class CaesarCipher{
 	}
 
 	fun characterOf(y: Int): Char {
-		return z[y]
+		return CIPHER_BASE[y]
 	}
 
 }

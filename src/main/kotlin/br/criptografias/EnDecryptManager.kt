@@ -1,15 +1,7 @@
 package main.br.criptografias
 
-interface key{
-
-}
-
-interface msg{
-
-}
-
 interface EnDecryptManager {
-    open fun encrypt()
-    open fun decrypt()
+    open fun encrypt(data:String, usableKey:String)
+    open fun decrypt(dataCrypt:String, usableKey:String)
     open fun exeTime()
 }

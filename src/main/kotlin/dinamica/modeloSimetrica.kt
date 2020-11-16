@@ -1,5 +1,7 @@
 package main.dinamica
 
+import br.criptografias.Aes
+
 
 open class modeloSimetrica(
         var id : String,
@@ -8,7 +10,7 @@ open class modeloSimetrica(
         var mensagem : String
 ) : cripto {
 
-    //var teste : AES = AES()
+    var teste : Aes = Aes()
 
 
     override fun criptografar() {
