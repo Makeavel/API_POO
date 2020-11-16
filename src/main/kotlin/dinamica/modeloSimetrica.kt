@@ -1,7 +1,5 @@
 package main.dinamica
 
-import testeConvKotlin.AES
-
 
 open class modeloSimetrica(
         var id : String,
@@ -10,7 +8,7 @@ open class modeloSimetrica(
         var mensagem : String
 ) : cripto {
 
-    var teste : AES = AES()
+    //var teste : AES = AES()
 
 
     override fun criptografar() {

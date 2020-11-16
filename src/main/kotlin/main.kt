@@ -1,7 +1,5 @@
 package main
 
-import testeConvKotlin.AES
-
 fun main(){
 //     //esse é um método que não usa classe
 //        val reader = Scanner(System.`in`)

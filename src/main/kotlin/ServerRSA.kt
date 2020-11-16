@@ -10,17 +10,16 @@ import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import main.br.criptografias.RSACLASS
-import main.br.criptografias.Simetrica
+import main.br.criptografias.CaesarCipher
 import main.dinamica.banco
 import main.dinamica.guardar
 import main.dinamica.modeloAssimetrica
-import main.dinamica.modeloSimetrica
 import main.login.Pessoa
 import main.login.login
 import java.math.BigInteger
 
 val rsa:RSACLASS = RSACLASS()
-val Simetrica = Simetrica()
+val Simetrica = CaesarCipher()
 val contas:login = login()
 val banco : banco = banco()
 
