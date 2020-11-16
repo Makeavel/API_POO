@@ -4,15 +4,21 @@ import java.math.BigInteger
 import java.security.SecureRandom
 
 
+data class rsaretorno (val chavepublicaE : BigInteger,
+                       val chaveN: BigInteger,
+                       val mensagem : MutableList<BigInteger>,
+                       val chaveprivada : BigInteger)
+
+
 open class RSACLASS {
     // declaração das listas
     val msg_asc: MutableList<BigInteger> = mutableListOf() // string em forma de ASCII
     val msg_encrypt: MutableList<BigInteger> = mutableListOf() // string encriptada
     val msg_desencrypt: MutableList<BigInteger> = mutableListOf() // string desencriptada
-    val numeros: IntArray = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+    //val numeros: IntArray = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 
 
-    fun RSA(entrada : String) {
+    fun RSA(entrada : String) : rsaretorno {
         //criação das variáveis
         val r = SecureRandom()
         val p = BigInteger(16/ 2, 100, r)
@@ -35,12 +41,21 @@ open class RSACLASS {
 
         desecripta(msg_desencrypt,msg_encrypt,n,inve)
 
+        return rsaretorno(e,n,msg_encrypt,inve)
 
     }
-    fun desecripta(msg_desencrypt : MutableList<BigInteger>,msg_encrypt:  MutableList<BigInteger>,n : BigInteger,inve : BigInteger){
+    fun desecripta(msg_desencrypt : MutableList<BigInteger>,msg_encrypt:  MutableList<BigInteger>,n : BigInteger,inve : BigInteger): MutableList<BigInteger> {
         for (i in msg_encrypt) {
             msg_desencrypt.add((i.pow(inve.toInt())).rem(n))
         }
+        return msg_desencrypt
+    }
+    fun juntar(msg : MutableList<BigInteger>): String {
+        var palavra : String = ""
+        for (i in msg) {
+            palavra += "${i.toInt().toChar()}"
+        }
+        return palavra
     }
     fun encripta(msg_asc : MutableList<BigInteger>,msg_encrypt:  MutableList<BigInteger>,n : BigInteger,e : BigInteger){
         for (i in msg_asc) {
