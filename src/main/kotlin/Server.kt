@@ -24,13 +24,13 @@ val contas:login = login()
 val banco : banco = banco()
 var criptografia = Aes()
 
-data class respostacriptoRSA(val chavePrivada: BigInteger,val chaveN : BigInteger,val chavePublica : BigInteger)
+data class respostacriptoRSA(val chavePrivada: BigInteger,val chavePublica : BigInteger)
 
 data class respostadesencriptoRSA(val id: String, val senha : String, val chavePublica : BigInteger,val chaveN : BigInteger,val chavePrivada: BigInteger)
 
 data class respostadesencriptoAES(val id : String,val senha: String, var chave: String, val mensagem : String)
 
-data class respostacriptoAES(val id : String,var chave: String, val mensagem : String)
+data class respostacriptoAES(val id : String,var chave: String, val senha : String, val mensagem : String)
 
 
 fun main(){
@@ -45,24 +45,7 @@ fun main(){
                     setPrettyPrinting()
                 }
             }
-            get("/info") {
-                call.respondText("API que recebe um texto, encripta e desencripta")
-            }
-            post("/entrada"){
-                val palavra = call.receive<String>()
-                call.respond(palavra)
-                rsa.RSA(palavra)
 
-            }
-
-            get("/encriptar"){
-                    call.respond(rsa.msg_encrypt)
-
-            }
-            get("/desencriptar"){
-                call.respond(rsa.msg_desencrypt)
-
-            }
             get("/usu"){
                 call.respond(contas.contas)
             }
@@ -84,11 +67,17 @@ fun main(){
                 var teste : modeloAssimetrica = call.receive<modeloAssimetrica>()
                 var  modelo : modeloAssimetrica = modeloAssimetrica(id = teste.id,senha = teste.senha,mensagem = teste.mensagem)
 
-                modelo.criptografar()
-                banco.assimetricos.add(modelo)
-                banco.mensagenscriptografadasRSA.add(guardarRSA(modelo.id,modelo.senha,modelo.chavePublica,modelo.chaveN,modelo.chavePrivada,modelo.mensagemCriptografada))
+                var verifica = contas.contas.firstOrNull{it.id == modelo.id && it.senha == modelo.senha}
 
-                call.respond(HttpStatusCode.OK,respostacriptoRSA(modelo.chavePrivada,modelo.chaveN,modelo.chavePublica))
+                    if(verifica != null){
+                        modelo.criptografar()
+                        banco.assimetricos.add(modelo)
+                        banco.mensagenscriptografadasRSA.add(guardarRSA(modelo.id,modelo.senha,modelo.chavePublica,modelo.chaveN,modelo.chavePrivada,modelo.mensagemCriptografada))
+                        call.respond(HttpStatusCode.OK,respostacriptoRSA(modelo.chavePrivada,modelo.chavePublica))
+                        //call.respond(HttpStatusCode.OK,"Conta existente, mensagem criptografada com o RSA")
+                    }else{
+                        call.respond(HttpStatusCode.NotFound,"Conta inexistente ou dados inválidos")
+                    }
 
             }
 
@@ -99,7 +88,6 @@ fun main(){
             post("/usuario/decripto/RSA"){
                 val requisicao : respostadesencriptoRSA = call.receive<respostadesencriptoRSA>()
                 var batata : modeloAssimetrica? = banco.assimetricos.firstOrNull{(requisicao.id == it.id &&
-                        requisicao.chaveN == it.chaveN &&
                         requisicao.chavePrivada == it.chavePrivada &&
                         requisicao.chavePublica == it.chavePublica&&
                         requisicao.senha == it.senha)}
@@ -118,13 +106,19 @@ fun main(){
 
                 var criptografia = Aes()
 
-                var mensagem : String? = criptografia.encrypt(requisicao.mensagem,requisicao.chave)
+                var verifica = contas.contas.firstOrNull{it.id == requisicao.id && it.senha == requisicao.senha}
 
-                if (mensagem != null) {
-                    banco.simetricos.add(requisicao)
-                    banco.mensagenscriptografadasAES.add(guardarAES(requisicao.id,requisicao.chave,mensagem))
-                    call.respond(HttpStatusCode.OK, "Mensagem Criptografa")
+                if(verifica != null){
+                    var mensagem : String? = criptografia.encrypt(requisicao.mensagem,requisicao.chave)
 
+                    if (mensagem != null) {
+                        banco.simetricos.add(requisicao)
+                        banco.mensagenscriptografadasAES.add(guardarAES(requisicao.id,requisicao.chave,mensagem))
+                        call.respond(HttpStatusCode.OK, "Mensagem Criptografa")
+
+                    }
+                }else{
+                    call.respond(HttpStatusCode.NotFound,"Conta inexistente ou dados inválidos")
                 }
 
             }
@@ -137,14 +131,9 @@ fun main(){
                 val requisicao : respostadesencriptoAES = call.receive<respostadesencriptoAES>()
 
 
-                println(requisicao.chave)
-                println(requisicao.id)
-                println(requisicao.mensagem)
-
-
                 var cenoura : modeloSimetrica? = banco.simetricos.firstOrNull{(requisicao.id == it.id &&
-                        requisicao.chave == it.chave /*&&
-                        requisicao.senha == it.senha*/)}
+                        requisicao.chave == it.chave &&
+                        requisicao.senha == it.senha)}
 
 
                 if(cenoura != null){

@@ -1,6 +1,6 @@
 package main.dinamica
 
-interface cripto {
+interface interAssi {
     fun criptografar()
 
     fun descriptografar() : String

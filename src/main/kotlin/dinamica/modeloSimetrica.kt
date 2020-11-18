@@ -1,9 +1,6 @@
 package main.dinamica
 
-import br.criptografias.Aes
-
-
-open class modeloSimetrica(
+class modeloSimetrica(
         var id : String,
         var senha : String,
         var chave : String = "",

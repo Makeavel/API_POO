@@ -13,7 +13,7 @@ class modeloAssimetrica(
         var chavePrivada : BigInteger = 0.toBigInteger(),
         var mensagem : String,
         var mensagemCriptografada : MutableList<BigInteger> = mutableListOf<BigInteger>()
-) : cripto {
+) : interAssi {
 
     var teste : RSACLASS = RSACLASS()
     var ola : rsaretorno = teste.RSA(this.mensagem)
