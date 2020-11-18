@@ -11,21 +11,26 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import main.br.criptografias.RSACLASS
 import main.br.criptografias.CaesarCipher
-import main.dinamica.banco
-import main.dinamica.guardar
-import main.dinamica.modeloAssimetrica
 import main.login.Pessoa
 import main.login.login
 import java.math.BigInteger
+import br.criptografias.Aes
+import main.dinamica.*
+
 
 val rsa:RSACLASS = RSACLASS()
 val Simetrica = CaesarCipher()
 val contas:login = login()
 val banco : banco = banco()
+var criptografia = Aes()
 
-data class respostacripto(val chavePrivada: BigInteger,val chaveN : BigInteger,val chavePublica : BigInteger)
+data class respostacriptoRSA(val chavePrivada: BigInteger,val chaveN : BigInteger,val chavePublica : BigInteger)
 
-data class respostadesencripto(val id: String, val senha : String, val chavePublica : BigInteger,val chaveN : BigInteger,val chavePrivada: BigInteger)
+data class respostadesencriptoRSA(val id: String, val senha : String, val chavePublica : BigInteger,val chaveN : BigInteger,val chavePrivada: BigInteger)
+
+data class respostadesencriptoAES(val id : String,val senha: String, var chave: String, val mensagem : String)
+
+data class respostacriptoAES(val id : String,var chave: String, val mensagem : String)
 
 
 fun main(){
@@ -81,18 +86,18 @@ fun main(){
 
                 modelo.criptografar()
                 banco.assimetricos.add(modelo)
-                banco.mensagenscriptografadas.add(guardar(modelo.id,modelo.senha,modelo.chavePublica,modelo.chaveN,modelo.chavePrivada,modelo.mensagemCriptografada))
+                banco.mensagenscriptografadasRSA.add(guardarRSA(modelo.id,modelo.senha,modelo.chavePublica,modelo.chaveN,modelo.chavePrivada,modelo.mensagemCriptografada))
 
-                call.respond(HttpStatusCode.OK,respostacripto(modelo.chavePrivada,modelo.chaveN,modelo.chavePublica))
+                call.respond(HttpStatusCode.OK,respostacriptoRSA(modelo.chavePrivada,modelo.chaveN,modelo.chavePublica))
 
             }
 
-            get("/chaves"){
-                call.respond(banco.mensagenscriptografadas)
+            get("/mensagensCriptoRSA"){
+                call.respond(banco.mensagenscriptografadasRSA)
             }
 
             post("/usuario/decripto/RSA"){
-                val requisicao : respostadesencripto = call.receive<respostadesencripto>()
+                val requisicao : respostadesencriptoRSA = call.receive<respostadesencriptoRSA>()
                 var batata : modeloAssimetrica? = banco.assimetricos.firstOrNull{(requisicao.id == it.id &&
                         requisicao.chaveN == it.chaveN &&
                         requisicao.chavePrivada == it.chavePrivada &&
@@ -108,18 +113,50 @@ fun main(){
                     }
             }
 
-//            post("/usuario/cripto/AES"){
-//               val msg :modeloSimetrica = call.receive<modeloSimetrica>()
-//                call.respond(msg)
-//            }
+            post("/usuario/cripto/AES"){
+                val requisicao : modeloSimetrica = call.receive<modeloSimetrica>()
 
-            post("/criptografia") {
-                Simetrica.crypt("makeavel", "12345678")
+                var criptografia = Aes()
+
+                var mensagem : String? = criptografia.encrypt(requisicao.mensagem,requisicao.chave)
+
+                if (mensagem != null) {
+                    banco.simetricos.add(requisicao)
+                    banco.mensagenscriptografadasAES.add(guardarAES(requisicao.id,requisicao.chave,mensagem))
+                    call.respond(HttpStatusCode.OK, "Mensagem Criptografa")
+
+                }
+
             }
 
-            get("/oi") {
-                Simetrica.crypt("makeavel", "12345678")
+            get("/mensagensCriptoAES"){
+                call.respond(banco.mensagenscriptografadasAES)
             }
+
+            post("/usuario/decripto/AES"){
+                val requisicao : respostadesencriptoAES = call.receive<respostadesencriptoAES>()
+
+
+                println(requisicao.chave)
+                println(requisicao.id)
+                println(requisicao.mensagem)
+
+
+                var cenoura : modeloSimetrica? = banco.simetricos.firstOrNull{(requisicao.id == it.id &&
+                        requisicao.chave == it.chave /*&&
+                        requisicao.senha == it.senha*/)}
+
+
+                if(cenoura != null){
+                    val msgdesencripAES : String? = criptografia.decrypt(requisicao.mensagem,requisicao.chave)
+                    if (msgdesencripAES != null) {
+                        call.respond(msgdesencripAES)
+                    }
+                }else{
+                    call.respond(HttpStatusCode.NotFound,"verifique as credenciais")
+                }
+            }
+
 
 
             

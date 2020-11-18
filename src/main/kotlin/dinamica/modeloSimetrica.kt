@@ -8,18 +8,6 @@ open class modeloSimetrica(
         var senha : String,
         var chave : String = "",
         var mensagem : String
-) : cripto {
-
-    var teste : Aes = Aes()
-
-
-    override fun criptografar() {
-
-    }
-
-    override fun descriptografar() : String {
-        TODO("Not yet implemented")
-    }
-
+){
 
 }
