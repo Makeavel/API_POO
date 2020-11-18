@@ -29,4 +29,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-mainClassName = "br.iesb.poo.ServerKt"
+mainClassName = "br.ServerRSA.kt"
+task stage {
+    dependsOn installDist
+}
