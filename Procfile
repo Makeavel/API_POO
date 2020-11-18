@@ -1,0 +1,1 @@
+web: ./graglew run
