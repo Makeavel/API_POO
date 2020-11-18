@@ -29,7 +29,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-mainClassName = "ServerRSA.kt"
+mainClassName = 'br.controller.ServerKt'
 task stage {
     dependsOn installDist
 }
