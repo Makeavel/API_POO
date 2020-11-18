@@ -1,1 +1,1 @@
-web: ./graglew run
+web: ./gradlew run
