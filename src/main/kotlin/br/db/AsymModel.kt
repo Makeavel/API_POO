@@ -1,5 +1,6 @@
 package main.br.dinamica
 
+import br.core.MoldCryptos
 import main.br.criptografias.RSACLASS
 import main.br.criptografias.rsaretorno
 import java.math.BigInteger

@@ -1,4 +1,4 @@
-package main.br.dinamica
+package br.core
 
 interface MoldCryptos {
     fun criptografar()
