@@ -1,6 +1,6 @@
-package main
+package main.br
 
-import br.criptografias.Aes
+import br.core.Aes
 
 fun main(){
 //     //esse é um método que não usa classe

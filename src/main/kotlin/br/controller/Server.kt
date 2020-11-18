@@ -1,4 +1,4 @@
-package main
+package br.controller
 
 import io.ktor.application.*
 import io.ktor.features.*
@@ -11,16 +11,16 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import main.br.criptografias.RSACLASS
 import main.br.criptografias.CaesarCipher
-import main.login.Pessoa
-import main.login.login
+import main.br.login.User
+import main.br.login.Login
 import java.math.BigInteger
-import br.criptografias.Aes
-import main.dinamica.*
+import br.core.Aes
+import main.br.dinamica.*
 
 
 val rsa:RSACLASS = RSACLASS()
 val Simetrica = CaesarCipher()
-val contas:login = login()
+val contas: Login = Login()
 val banco : banco = banco()
 var criptografia = Aes()
 
@@ -51,10 +51,10 @@ fun main(){
             }
 
             post("/loga"){
-                val novaConta : Pessoa = call.receive<Pessoa>()
+                val novaConta : User = call.receive<User>()
                 var verifica = contas.contas.firstOrNull{it.usuario == novaConta.usuario} // retorna o primeiro usuario que atende a condição
                     if(verifica == null){ //se n existir, ele cria
-                        val UsuarioCadastro : Pessoa = Pessoa(usuario = novaConta.usuario, senha = novaConta.senha)
+                        val UsuarioCadastro : User = User(usuario = novaConta.usuario, senha = novaConta.senha)
                         contas.contas.add(UsuarioCadastro)
                         call.respond(HttpStatusCode.Created,UsuarioCadastro)
                     }else{// se existir, retorna erro 409
@@ -64,8 +64,8 @@ fun main(){
             }
 
             post("/usuario/cripto/RSA"){
-                var teste : modeloAssimetrica = call.receive<modeloAssimetrica>()
-                var  modelo : modeloAssimetrica = modeloAssimetrica(id = teste.id,senha = teste.senha,mensagem = teste.mensagem)
+                var teste : AsymModel = call.receive<AsymModel>()
+                var  modelo : AsymModel = AsymModel(id = teste.id,senha = teste.senha,mensagem = teste.mensagem)
 
                 var verifica = contas.contas.firstOrNull{it.id == modelo.id && it.senha == modelo.senha}
 
@@ -73,7 +73,7 @@ fun main(){
                         modelo.criptografar()
                         banco.assimetricos.add(modelo)
                         banco.mensagenscriptografadasRSA.add(guardarRSA(modelo.id,modelo.senha,modelo.chavePublica,modelo.chaveN,modelo.chavePrivada,modelo.mensagemCriptografada))
-                        call.respond(HttpStatusCode.OK,respostacriptoRSA(modelo.chavePrivada,modelo.chavePublica))
+                        call.respond(HttpStatusCode.OK, respostacriptoRSA(modelo.chavePrivada,modelo.chavePublica))
                         //call.respond(HttpStatusCode.OK,"Conta existente, mensagem criptografada com o RSA")
                     }else{
                         call.respond(HttpStatusCode.NotFound,"Conta inexistente ou dados inválidos")
@@ -87,7 +87,7 @@ fun main(){
 
             post("/usuario/decripto/RSA"){
                 val requisicao : respostadesencriptoRSA = call.receive<respostadesencriptoRSA>()
-                var batata : modeloAssimetrica? = banco.assimetricos.firstOrNull{(requisicao.id == it.id &&
+                var batata : AsymModel? = banco.assimetricos.firstOrNull{(requisicao.id == it.id &&
                         requisicao.chavePrivada == it.chavePrivada &&
                         requisicao.chavePublica == it.chavePublica&&
                         requisicao.senha == it.senha)}
@@ -102,7 +102,7 @@ fun main(){
             }
 
             post("/usuario/cripto/AES"){
-                val requisicao : modeloSimetrica = call.receive<modeloSimetrica>()
+                val requisicao : SymModel = call.receive<SymModel>()
 
                 var criptografia = Aes()
 
@@ -131,7 +131,7 @@ fun main(){
                 val requisicao : respostadesencriptoAES = call.receive<respostadesencriptoAES>()
 
 
-                var cenoura : modeloSimetrica? = banco.simetricos.firstOrNull{(requisicao.id == it.id &&
+                var cenoura : SymModel? = banco.simetricos.firstOrNull{(requisicao.id == it.id &&
                         requisicao.chave == it.chave &&
                         requisicao.senha == it.senha)}
 

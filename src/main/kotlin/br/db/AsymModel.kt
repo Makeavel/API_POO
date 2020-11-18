@@ -1,11 +1,11 @@
-package main.dinamica
+package main.br.dinamica
 
 import main.br.criptografias.RSACLASS
 import main.br.criptografias.rsaretorno
 import java.math.BigInteger
 
 
-class modeloAssimetrica(
+class AsymModel(
         var id : String,
         var senha : String,
         var chavePublica : BigInteger = 0.toBigInteger(),
@@ -13,7 +13,7 @@ class modeloAssimetrica(
         var chavePrivada : BigInteger = 0.toBigInteger(),
         var mensagem : String,
         var mensagemCriptografada : MutableList<BigInteger> = mutableListOf<BigInteger>()
-) : interAssi {
+) : MoldCryptos {
 
     var teste : RSACLASS = RSACLASS()
     var ola : rsaretorno = teste.RSA(this.mensagem)

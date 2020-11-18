@@ -1,7 +1,7 @@
-package main.login
+package main.br.login
 import java.util.UUID
 
-class Pessoa(
+class User(
 //        var id : String = UUID.randomUUID().toString(),
         var usuario : String,
         var senha : String

@@ -1,4 +1,4 @@
-package main.dinamica
+package main.br.dinamica
 
 import java.math.BigInteger
 
@@ -14,10 +14,10 @@ data class guardarAES(val id : String,
 
 class banco {
 
-    var assimetricos : MutableList<modeloAssimetrica> = mutableListOf<modeloAssimetrica>()
+    var assimetricos : MutableList<AsymModel> = mutableListOf<AsymModel>()
     var mensagenscriptografadasRSA : MutableList<guardarRSA> = mutableListOf<guardarRSA>()
 
-    var simetricos : MutableList<modeloSimetrica> = mutableListOf<modeloSimetrica>()
+    var simetricos : MutableList<SymModel> = mutableListOf<SymModel>()
     var mensagenscriptografadasAES : MutableList<guardarAES> = mutableListOf<guardarAES>()
 
 

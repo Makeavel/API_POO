@@ -1,4 +1,4 @@
-package br.criptografias
+package br.core
 
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest

@@ -1,6 +1,6 @@
-package main.dinamica
+package main.br.dinamica
 
-class modeloSimetrica(
+class SymModel(
         var id : String,
         var senha : String,
         var chave : String = "",

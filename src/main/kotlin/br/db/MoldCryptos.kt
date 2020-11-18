@@ -1,6 +1,6 @@
-package main.dinamica
+package main.br.dinamica
 
-interface interAssi {
+interface MoldCryptos {
     fun criptografar()
 
     fun descriptografar() : String
