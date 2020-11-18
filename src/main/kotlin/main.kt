@@ -1,5 +1,7 @@
 package main
 
+import br.criptografias.Aes
+
 fun main(){
 //     //esse é um método que não usa classe
 //        val reader = Scanner(System.`in`)
@@ -9,15 +11,15 @@ fun main(){
 //
 //         RSA(entrada)
 //     //************************************************************
-//    var aes = AES()
-//    var teste: String? = aes.encrypt("ygor","ola")
-//
-//    println(teste)
-//    println("**")
-//
-//    var teste2 : String? = teste?.let{aes.decrypt(teste, "ola")}
-//    println(teste2)
-//    //***************************************************************
+    var Aes = Aes()
+    var teste: String? = Aes.encrypt("ygor","ola")
+
+    println(teste)
+    println("**")
+
+    var teste2 : String? = teste?.let{Aes.decrypt(teste, "ola")}
+    println(teste2)
+    //***************************************************************
 
 
 

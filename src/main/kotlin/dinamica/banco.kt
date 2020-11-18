@@ -2,15 +2,23 @@ package main.dinamica
 
 import java.math.BigInteger
 
-data class guardar(val id : String, val senha : String, var chavePublica : BigInteger,
+data class guardarRSA(val id : String, val senha : String, var chavePublica : BigInteger,
                    var chaveN : BigInteger,
                    var chavePrivada : BigInteger,
                    val mensagem : MutableList<BigInteger>
                    )
 
+data class guardarAES(val id : String,
+                      var chave: String,
+                      val mensagem : String)
+
 class banco {
 
     var assimetricos : MutableList<modeloAssimetrica> = mutableListOf<modeloAssimetrica>()
-    var mensagenscriptografadas : MutableList<guardar> = mutableListOf<guardar>()
+    var mensagenscriptografadasRSA : MutableList<guardarRSA> = mutableListOf<guardarRSA>()
+
+    var simetricos : MutableList<modeloSimetrica> = mutableListOf<modeloSimetrica>()
+    var mensagenscriptografadasAES : MutableList<guardarAES> = mutableListOf<guardarAES>()
+
 
 }
